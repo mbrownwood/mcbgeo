@@ -1,0 +1,45 @@
+openapi: '3.0.1'
+
+info:
+  title: Appointment Notification API
+  description: API specification for the FHA Appointment Notification service.
+  version: '1.0'
+
+servers:
+  - url: 'http://localhost:8080'
+
+paths:
+  /v1/users/london/area:
+    get:
+      operationId: getUsers
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserDto'
+components:
+  schemas:
+    UserDto:
+      type: object
+      properties:
+        id:
+          type: integer
+        first_name:
+          type: string
+        last_name:
+          type: string
+        email:
+          type: string
+        ip_address:
+          type: string
+        latitude:
+          type: number
+          format: double
+        longitude:
+          type: number
+          format: double
+

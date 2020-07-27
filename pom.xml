@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>uk.mcb</groupId>
+  <artifactId>mcb-geo</artifactId>
+  <version>1.0-SNAPSHOT</version>
+
+  <properties>
+    <junit-jupiter.version>5.4.2</junit-jupiter.version>
+    <lombok.version>1.18.12</lombok.version>
+    <openapi.generator.plugin.version>4.3.1</openapi.generator.plugin.version>
+    <swagger.annotations.version>1.6.2</swagger.annotations.version>
+    <swagger.jackson.nullable.version>0.2.1</swagger.jackson.nullable.version>
+    <tomtom.speedtools.version>3.2.21</tomtom.speedtools.version>
+
+    <!-- Necessary for intellij to function -->
+    <maven.compiler.source>11</maven.compiler.source>
+    <maven.compiler.target>11</maven.compiler.target>
+  </properties>
+
+  <!--Spring Boot Parent POM-->
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>2.2.7.RELEASE</version>
+  </parent>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>${lombok.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.tomtom.speedtools</groupId>
+      <artifactId>geo</artifactId>
+      <version>${tomtom.speedtools.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.swagger</groupId>
+      <artifactId>swagger-annotations</artifactId>
+      <version>${swagger.annotations.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.openapitools</groupId>
+      <artifactId>jackson-databind-nullable</artifactId>
+      <version>${swagger.jackson.nullable.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>${junit-jupiter.version}</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.openapitools</groupId>
+        <artifactId>openapi-generator-maven-plugin</artifactId>
+        <version>${openapi.generator.plugin.version}</version>
+        <executions>
+          <execution>
+            <id>swagger-server-generator</id>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+            <configuration>
+              <inputSpec>
+                ${project.basedir}/src/main/resources/ms-mcbgeo-v1-openapi.yaml
+              </inputSpec>
+              <generatorName>spring</generatorName>
+              <configOptions>
+                <java8>true</java8>
+                <dateLibrary>java8</dateLibrary>
+                <sourceFolder>src/gen/java/main</sourceFolder>
+                <useTags>true</useTags>
+                <interfaceOnly>true</interfaceOnly>
+                <delegatePattern>true</delegatePattern>
+                <modelPackage>uk.mcb.generated.rest.v1.dto</modelPackage>
+                <apiPackage>uk.mcb.generated.rest.v1</apiPackage>
+              </configOptions>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
