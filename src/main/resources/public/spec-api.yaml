@@ -1,8 +1,8 @@
 openapi: '3.0.1'
 
 info:
-  title: Appointment Notification API
-  description: API specification for the FHA Appointment Notification service.
+  title: Geo API
+  description: API specification for service identifying London area users
   version: '1.0'
 
 servers:

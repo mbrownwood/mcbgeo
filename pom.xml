@@ -99,7 +99,7 @@
             </goals>
             <configuration>
               <inputSpec>
-                ${project.basedir}/src/main/resources/ms-mcbgeo-v1-openapi.yaml
+                ${project.basedir}/src/main/resources/public/spec-api.yaml
               </inputSpec>
               <generatorName>spring</generatorName>
               <configOptions>
