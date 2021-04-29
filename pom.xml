@@ -12,7 +12,7 @@
     <compiler.plugin.version>3.8.1</compiler.plugin.version>
     <junit-jupiter.version>5.4.2</junit-jupiter.version>
     <lombok.version>1.18.12</lombok.version>
-    <openapi.generator.plugin.version>4.3.1</openapi.generator.plugin.version>
+    <openapi.generator.plugin.version>5.1.0</openapi.generator.plugin.version>
     <swagger.annotations.version>1.6.2</swagger.annotations.version>
     <swagger.jackson.nullable.version>0.2.1</swagger.jackson.nullable.version>
     <tomtom.speedtools.version>3.2.21</tomtom.speedtools.version>
