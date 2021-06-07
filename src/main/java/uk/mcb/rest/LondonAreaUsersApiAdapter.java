@@ -3,43 +3,43 @@ package uk.mcb.rest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
-import uk.mcb.generated.rest.v1.DefaultApi;
-import uk.mcb.generated.rest.v1.dto.UserDto;
-import uk.mcb.integration.BpdtsUserDto;
-import uk.mcb.usecase.PeopleFinder;
+import uk.mcb.generated.rest.v1.V1Api;
+import uk.mcb.generated.rest.v1.dto.PeopleDto;
+import uk.mcb.integration.DwpUserDto;
+import uk.mcb.service.LondonAreaPeopleFinder;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-public class LondonAreaUsersApiAdapter implements DefaultApi {
+public class LondonAreaUsersApiAdapter implements V1Api {
 
-  private final PeopleFinder peopleFinder;
+  private final LondonAreaPeopleFinder londonAreaPeopleFinder;
 
   @Override
-  public ResponseEntity<List<UserDto>> getUsers() {
+  public ResponseEntity<List<PeopleDto>> getPeopleInLondonArea() {
+    List<DwpUserDto> dwpUserDtos = londonAreaPeopleFinder.findPeopleInLondonArea();
 
-    var bpdtsUserDtos = peopleFinder.execute();
+    List<PeopleDto> peopleDtos = mapToPeopleDtos(dwpUserDtos);
 
-    var userDtos = mapToUserDtos(bpdtsUserDtos);
-
-    return ResponseEntity.ok(userDtos);
+    return ResponseEntity.ok(peopleDtos);
   }
 
-  private List<UserDto> mapToUserDtos(List<BpdtsUserDto> bpdtsUserDtos) {
-    var userDtos = new ArrayList<UserDto>();
-    for (BpdtsUserDto bpdtsUserDto : bpdtsUserDtos) {
-      userDtos.add(
-          new UserDto()
-              .id(bpdtsUserDto.getId())
-              .firstName(bpdtsUserDto.getFirstName())
-              .lastName(bpdtsUserDto.getLastName())
-              .email(bpdtsUserDto.getEmail())
-              .ipAddress(bpdtsUserDto.getIpAddress())
-              .latitude(bpdtsUserDto.getLatitude())
-              .longitude(bpdtsUserDto.getLongitude()));
+  private List<PeopleDto> mapToPeopleDtos(List<DwpUserDto> dwpUserDtos) {
+    List<PeopleDto> peopleDtos = new ArrayList<>();
+
+    for (DwpUserDto dwpUserDto : dwpUserDtos) {
+      peopleDtos.add(
+          new PeopleDto()
+              .id(dwpUserDto.getId())
+              .firstName(dwpUserDto.getFirstName())
+              .lastName(dwpUserDto.getLastName())
+              .email(dwpUserDto.getEmail())
+              .ipAddress(dwpUserDto.getIpAddress())
+              .latitude(dwpUserDto.getLatitude())
+              .longitude(dwpUserDto.getLongitude()));
     }
-    return userDtos;
+    return peopleDtos;
   }
 }

@@ -14,29 +14,33 @@ import java.util.List;
 public class ServiceGateway {
 
   private static final String GET_LONDON_USERS =
-      "http://bpdts-test-app.herokuapp.com/city/London/users";
-  private static final String GET_USERS = "http://bpdts-test-app.herokuapp.com/users";
+      "http://dwp-techtest.herokuapp.com/city/London/users";
+  private static final String GET_USERS = "http://dwp-techtest.herokuapp.com/users";
 
   private final RestTemplate restTemplate;
 
-  public List<BpdtsUserDto> getUsersInLondon() {
-    return callGetUsersInLondon().getBody();
+  public List<DwpUserDto> getUsersInLondon() {
+    ResponseEntity<List<DwpUserDto>> responseEntity = callGetUsersInLondon();
+
+    return responseEntity.getBody();
   }
 
-  public List<BpdtsUserDto> getUsers() {
-    return callGetUsers().getBody();
+  public List<DwpUserDto> getUsers() {
+    ResponseEntity<List<DwpUserDto>> responseEntity = callGetUsers();
+
+    return responseEntity.getBody();
   }
 
-  ResponseEntity<List<BpdtsUserDto>> callGetUsers() {
+  ResponseEntity<List<DwpUserDto>> callGetUsers() {
     return restTemplate.exchange(
-        GET_USERS, HttpMethod.GET, null, new ParameterizedTypeReference<List<BpdtsUserDto>>() {});
+        GET_USERS, HttpMethod.GET, null, new ParameterizedTypeReference<List<DwpUserDto>>() {});
   }
 
-  ResponseEntity<List<BpdtsUserDto>> callGetUsersInLondon() {
+  ResponseEntity<List<DwpUserDto>> callGetUsersInLondon() {
     return restTemplate.exchange(
         GET_LONDON_USERS,
         HttpMethod.GET,
         null,
-        new ParameterizedTypeReference<List<BpdtsUserDto>>() {});
+        new ParameterizedTypeReference<List<DwpUserDto>>() {});
   }
 }

@@ -11,7 +11,7 @@ servers:
 paths:
   /v1/users/london/area:
     get:
-      operationId: getUsers
+      operationId: getPeopleInLondonArea
       responses:
         200:
           description: Success
@@ -20,10 +20,10 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/UserDto'
+                  $ref: '#/components/schemas/PeopleDto'
 components:
   schemas:
-    UserDto:
+    PeopleDto:
       type: object
       properties:
         id:

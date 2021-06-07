@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class BpdtsUserDto {
+public class DwpUserDto {
 
   @JsonProperty("id")
   private Integer id;

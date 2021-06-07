@@ -5,15 +5,17 @@
 This is a maven project. To build the project from command line use:
 
 ```
-mvn clean package
+mvn clean verify
 ```
+
+This will package the deployable JAR file and check for any dependency vulnerabilities.
 
 ## To Run
 
 To run the application, once the project has been built, use:
 
 ```
-java -jar target/mcb-geo-1.0-SNAPSHOT.jar
+java -jar target/mcbgeo-1.1.0-SNAPSHOT.jar
 ```
 
 This will start the application on localhost:8080
