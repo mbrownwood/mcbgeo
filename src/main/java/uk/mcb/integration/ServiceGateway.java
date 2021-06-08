@@ -1,6 +1,7 @@
 package uk.mcb.integration;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class ServiceGateway {
 
   private static final String GET_LONDON_USERS =
@@ -20,15 +22,27 @@ public class ServiceGateway {
   private final RestTemplate restTemplate;
 
   public List<DwpUserDto> getUsersInLondon() {
+    log.info("About to call get users in London");
+
     ResponseEntity<List<DwpUserDto>> responseEntity = callGetUsersInLondon();
 
-    return responseEntity.getBody();
+    List<DwpUserDto> body = responseEntity.getBody();
+
+    log.info("Finished call to get users in London");
+
+    return body;
   }
 
   public List<DwpUserDto> getUsers() {
+    log.info("About to call get users");
+
     ResponseEntity<List<DwpUserDto>> responseEntity = callGetUsers();
 
-    return responseEntity.getBody();
+    List<DwpUserDto> body = responseEntity.getBody();
+
+    log.info("Finished call to get users");
+
+    return body;
   }
 
   ResponseEntity<List<DwpUserDto>> callGetUsers() {
