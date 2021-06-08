@@ -1,45 +1,57 @@
 package uk.mcb.rest;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
-import uk.mcb.generated.rest.v1.DefaultApi;
-import uk.mcb.generated.rest.v1.dto.UserDto;
-import uk.mcb.integration.BpdtsUserDto;
-import uk.mcb.usecase.PeopleFinder;
+import uk.mcb.generated.rest.v1.V1Api;
+import uk.mcb.generated.rest.v1.dto.PeopleDto;
+import uk.mcb.integration.DwpUserDto;
+import uk.mcb.service.LondonAreaPeopleFinder;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@RestController
 @RequiredArgsConstructor
-public class LondonAreaUsersApiAdapter implements DefaultApi {
+@RestController
+@Slf4j
+public class LondonAreaUsersApiAdapter implements V1Api {
 
-  private final PeopleFinder peopleFinder;
+  private final LondonAreaPeopleFinder londonAreaPeopleFinder;
 
   @Override
-  public ResponseEntity<List<UserDto>> getUsers() {
+  public ResponseEntity<List<PeopleDto>> getPeopleInLondonArea() {
+    log.info("About to process request to get people in London area");
 
-    var bpdtsUserDtos = peopleFinder.execute();
+    List<DwpUserDto> dwpUserDtos = londonAreaPeopleFinder.findPeopleInLondonArea();
 
-    var userDtos = mapToUserDtos(bpdtsUserDtos);
+    List<PeopleDto> peopleDtos = mapToPeopleDtos(dwpUserDtos);
 
-    return ResponseEntity.ok(userDtos);
+    ResponseEntity<List<PeopleDto>> responseEntity = ResponseEntity.ok(peopleDtos);
+
+    log.info("Finished processing request to get people in London area");
+
+    return responseEntity;
   }
 
-  private List<UserDto> mapToUserDtos(List<BpdtsUserDto> bpdtsUserDtos) {
-    var userDtos = new ArrayList<UserDto>();
-    for (BpdtsUserDto bpdtsUserDto : bpdtsUserDtos) {
-      userDtos.add(
-          new UserDto()
-              .id(bpdtsUserDto.getId())
-              .firstName(bpdtsUserDto.getFirstName())
-              .lastName(bpdtsUserDto.getLastName())
-              .email(bpdtsUserDto.getEmail())
-              .ipAddress(bpdtsUserDto.getIpAddress())
-              .latitude(bpdtsUserDto.getLatitude())
-              .longitude(bpdtsUserDto.getLongitude()));
+  private List<PeopleDto> mapToPeopleDtos(List<DwpUserDto> dwpUserDtos) {
+    log.info("About to map to people dtos");
+
+    List<PeopleDto> peopleDtos = new ArrayList<>();
+
+    for (DwpUserDto dwpUserDto : dwpUserDtos) {
+      peopleDtos.add(
+          new PeopleDto()
+              .id(dwpUserDto.getId())
+              .firstName(dwpUserDto.getFirstName())
+              .lastName(dwpUserDto.getLastName())
+              .email(dwpUserDto.getEmail())
+              .ipAddress(dwpUserDto.getIpAddress())
+              .latitude(dwpUserDto.getLatitude())
+              .longitude(dwpUserDto.getLongitude()));
     }
-    return userDtos;
+    log.info("Finished mapping to people dtos");
+
+    return peopleDtos;
   }
 }

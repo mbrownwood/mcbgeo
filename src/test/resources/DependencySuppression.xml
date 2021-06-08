@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.1.xsd">
+
+    <suppress>
+        <notes><![CDATA[
+        This suppresses a specific cve in log4j:jar:1.2.17, used by slf4j-log4j12:jar, used by geo:jar:3.2.23
+        ]]></notes>
+        <cve>CVE-2019-17571</cve>
+    </suppress>
+
+</suppressions>
