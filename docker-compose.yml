@@ -1,0 +1,17 @@
+version: '3.4'
+
+networks:
+  test:
+
+services:
+
+  mcbgeo:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - test
+    expose:
+      - 8080
+    ports:
+      - "8080:8080"

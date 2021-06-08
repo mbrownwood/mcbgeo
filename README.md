@@ -1,5 +1,15 @@
 # mcbgeo
 
+## Contents of this file
+
+* Overview
+* Build
+* Run
+  * standalone
+  * docker
+* Usage
+* Commits
+
 ## Overview
 
 This is a Spring Boot project.
@@ -10,10 +20,10 @@ as either living in London, or whose current coordinates are within
 
 It makes use of the API provided by https://dwp-techtest.herokuapp.com/.  
 
-It first calls http://dwp-techtest.herokuapp.com/city/London/users to 
+It first calls https://dwp-techtest.herokuapp.com/city/London/users to 
 get users listed as living in London.  
 
-It then calls http://dwp-techtest.herokuapp.com/users to get all users.  
+It then calls https://dwp-techtest.herokuapp.com/users to get all users.  
 Each user's coordinates are then checked to see if they are in within 50 miles of London.
 
 A duplicate check is then performed to ensure that only distinct users are identified.
@@ -32,7 +42,7 @@ circle:
 <artifactId>geo</artifactId>
 ```
 
-## To Build
+## Build
 
 This is a maven project. To build the project from command line use:
 
@@ -42,15 +52,41 @@ mvn clean verify
 
 This will package the deployable JAR file and check for any dependency vulnerabilities.
 
-## To Run
+## Run
 
-To run the application, once the project has been built, use:
+### standalone
+
+To run the application standalone use:
 
 ```
 java -jar target/mcbgeo-1.1.0-SNAPSHOT.jar
 ```
 
 This will start the application on localhost:8080
+
+### docker
+
+To run the application in a container use:
+
+```
+docker-compose up --build -d
+```
+
+This will start the application on localhost:8080
+
+To bring down use:
+
+```
+docker-compose down
+```
+
+To follow logs use:
+
+```
+docker-compose logs -f
+```
+
+See https://docs.docker.com/compose/ for more info on Docker Compose.
 
 ## Usage
 
@@ -61,3 +97,39 @@ Once started try:
 [http://localhost:8080/v1/users/london/area](http://localhost:8080/v1/users/london/area)
 
 A `Postman` collection is also provided at the root of the project.
+
+## Commits
+
+When committing use the conventional commit specification
+https://www.conventionalcommits.org/
+
+To manage this locally, enable a client side git hook.
+
+To enable a client side git hook, each of us will need to configure our local git projects.  
+For each of our projects, at `.git/hooks` create a file called `commit-msg`
+(I'm assuming one doesn't already exist) and copy this in:
+
+```
+#!/usr/bin/env bash
+
+conventional_commit_regex="^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\(.+\))?!?: .+$"
+
+commit_message=$(cat "$1")
+
+if [[ "$commit_message" =~ $conventional_commit_regex ]]; then
+  echo -e "Commit message meets Conventional Commit standards..."
+  exit 0
+fi
+
+echo -e "The commit message does not meet the Conventional Commit standard"
+echo "An example of a valid message is: "
+echo "  feat(login): add the 'remember me' button"
+echo "More details at: https://www.conventionalcommits.org/en/v1.0.0/#summary"
+
+exit 1
+```
+
+Make `commit-msg` executable.  Something like
+```
+chmod 755 commit-msg
+```
