@@ -18,12 +18,12 @@ It provides an API to find people who are listed
 as either living in London, or whose current coordinates are within
 50 miles of London.
 
-It makes use of the API provided by https://dwp-techtest.herokuapp.com/.  
+It makes use of the API provided by https://bpdts-test-app.herokuapp.com/.  
 
-It first calls https://dwp-techtest.herokuapp.com/city/London/users to 
+It first calls https://bpdts-test-app.herokuapp.com/city/London/users to 
 get users listed as living in London.  
 
-It then calls https://dwp-techtest.herokuapp.com/users to get all users.  
+It then calls https://bpdts-test-app.herokuapp.com/users to get all users.  
 Each user's coordinates are then checked to see if they are in within 50 miles of London.
 
 A duplicate check is then performed to ensure that only distinct users are identified.
@@ -59,7 +59,7 @@ This will package the deployable JAR file and check for any dependency vulnerabi
 To run the application standalone use:
 
 ```
-java -jar target/mcbgeo-1.1.0-SNAPSHOT.jar
+java -jar target/mcbgeo-1.2.0-SNAPSHOT.jar
 ```
 
 This will start the application on localhost:8080
