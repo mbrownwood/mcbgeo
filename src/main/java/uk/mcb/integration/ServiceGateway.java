@@ -16,8 +16,8 @@ import java.util.List;
 public class ServiceGateway {
 
   private static final String GET_LONDON_USERS =
-      "http://dwp-techtest.herokuapp.com/city/London/users";
-  private static final String GET_USERS = "http://dwp-techtest.herokuapp.com/users";
+      "http://bpdts-test-app.herokuapp.com/city/London/users";
+  private static final String GET_USERS = "http://bpdts-test-app.herokuapp.com/users";
 
   private final RestTemplate restTemplate;
 
